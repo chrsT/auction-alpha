@@ -1,0 +1,93 @@
+Enums:
+	TransactionDecision:
+		cooperate
+		defect
+		decline
+
+	StrategyEnum
+		hawk
+		dove
+
+	GeneTypeEnum
+		binary_decision
+		int_val
+
+PARAMETERS:
+	
+
+Agent:
+	##Method/Variable prefix:##
+		AUT_: Autonomous. Agent has full control over the output.
+		STATE_: State variable. Not overriden by agent.
+		CLASS_: Class method or variable.
+
+	Methods:
+		AUT_transaction_decision(other_agent): returns TransactionDecision
+		AUT_leave_feedback(transaction): leaves feedback based on that transaction.
+	
+		STATE_get_feedback(): Returns tuple of ints (positive_feedback,negative_feedback) based on feedback given on agents
+		STATE_get_score(): Returns agent's current score.
+
+	Variables:
+		CLASS_N_ID: Allows IDs to be assigned to each agent.		
+				
+		STATE_genome: object of Genome class.
+		STATE_id: ID of state.
+		
+Genome:
+	##Method/Variable prefix:##
+		STATE_: outputs info about the state
+		SPEC_: actually does stuff.
+		CLASS_:
+	
+	Methods:
+		CLASS_breed(Genome_1, Genome_2): Return new Genome bred. Classmethod
+		STATE_string(): Return string representation of Genome 
+		
+	
+	Variables:
+		STATE_genes: dictionary of Gene objects
+
+Gene:
+	##ABSTRACT CLASS##
+
+	##Method/Variable prefix:##
+		STATE_: outputs info about the state
+		SPEC_: actually does stuff
+
+	Methods:
+		STATE_tostring(): returns string representation of gene.
+
+DistinctGene(Gene):
+	##ABSTRACT CLASS##
+
+	##Method/Variable prefix:##
+		STATE_:outputs info about the state
+		SPEC_: actually does stuff
+
+	Methods:
+
+	
+	Variables:
+		STATE_possible_values: Link to an enum
+	
+
+	
+
+		
+IntGene(Gene):
+	##ABSTRACT CLASS##
+
+	##Method/Variable prefix:##
+		STATE_:outputs info about the state
+		SPEC_: actually does stuff
+
+	Variables:
+		STATE_range: tuple (min,max) of possible STATE_value, inclusive.
+
+StrategyGene(BinaryGene):
+	##Method/Variable prefix:##
+		STATE_:outputs info about the state
+		SPEC_: actually does stuff
+
+
