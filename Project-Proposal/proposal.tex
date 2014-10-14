@@ -1,16 +1,54 @@
 \documentclass{article}
+\usepackage{fancyref}
+
 \title{Project Proposal \\ Using Agents and Genetic Algorithms to model, analyse and improve strategies for trading on an online auction site with feedback and reputation systems}
 \author{Christopher Taylor \\ Department of Computer Science \\ University of Bath \\ ct345@bath.ac.uk}
 
 \begin{document}
 \maketitle
 \section{Problem Description}
+\label{sec:problem-description}
+Online auction websites - such as eBay - give users the opportunity to trade with eachother. Whilst this functionality is wonderful in terms of blah blah blah
 
+This project will create an abstract model of an online auction environment and use this to explore different strategies for both genuine and malicious users. This project spans mutliple Computer Science and Mathematical topics, including: Game Theory, Intelligent Agents and Genetic Algortihms.
+\subsection{The Auction Model}
+	\begin{figure}
+		\label{fig:model-payoff}
+		\caption{The Payoff Matrix for a transaction}
+		\begin{tabular}{| l || c | c | c |}
+			\hline
+			A1,A2 & A2 Coop & A2 Defe & A2 Decl \\ \hline
+			A1 Coop & 2,2 & -2,4 & 0,0 \\ \hline  
+			A1 Defe & 4,-2 & -1, -1 & 0,0 \\ \hline
+			A1 Decl & 0,0 & 0,0 & 0,0 \\ \hline
+		\end{tabular}
+	\end{figure}
+\begin{itemize}
+	\item N agents (representing users) are somehow selected or generated.
+	\item The number of transactions for the entire simulation is randomly determined, and hidden from the agents.
+	\item That many transactions runs, each one going as follows:
+	\begin{itemize}
+		\item Two random agents from the list are selected
+		\item Each choose whether to Cooperate, Defect or Decline. An agent that chooses to cooperate goes into the transaction with good faith, while an agent that chooses to defect attempts to scam or cheat the other. Each agent also has the choice to decline a transaction. The payoff for these actions is defined in \fref{fig:model-payoff}.
+		\item Each user then has the opportunity to leave feedback about the user they traded with (if the transaction actually went ahead - that is, if neither declined it.)
+	\end{itemize}
+	\item After all the transactions, each agent's score is computed.
+	\item Then, a new generation of agents can be bred from the results (see \fref{sec:genetic-algorithms}) and analysis of the results can be performed.
+\end{itemize}
+
+\subsubsection{Justification for model}
+\label{sec:justification-model}
+
+\subsubsection{Game Theory Analysis}
+\label{sec:game-theory}
+
+\subsection{Genetic Algorithms}
+\label{sec:genetic-algorithms}
 
 \section{Requirements}
-
+\label{sec:requirements}
 
 \section{Project Plan}
-
+\label{sec:project-plan}
 
 \end{document}
