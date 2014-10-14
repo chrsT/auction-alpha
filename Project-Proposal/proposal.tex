@@ -38,6 +38,13 @@ This project will create an abstract model of an online auction environment and 
 
 \subsubsection{Justification for model}
 \label{sec:justification-model}
+As previously discussed, this model is very much an abstraction rather than a faithful representation of how a site may work. Things not factored in include:
+\begin{itemize}
+	\item Modelling of the actual content of transactions: the physical packaging and sending of goods, what the goods actually are, methods of payment and so on.s
+	\item Relatedly, this includes different methods of defection - sending wrong/broken goods or not sending anything. Additionally, things such as a transaction falling through without malicious intent are not modelled.
+	\item The payoffs for each person are simplified and uniform.
+	\item Real users do not choose who to trade with at random.
+\end{itemize}
 
 \subsubsection{Game Theory Analysis}
 \label{sec:game-theory}
