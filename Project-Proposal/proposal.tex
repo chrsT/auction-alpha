@@ -46,8 +46,43 @@ As previously discussed, this model is very much an abstraction rather than a fa
 	\item Real users do not choose who to trade with at random.
 \end{itemize}
 
+Despite these limitations, I believe the model still has value as an analytical tool.
+
 \subsubsection{Game Theory Analysis}
 \label{sec:game-theory}
+Each individual transaction decision is typical of a Prisoner's Dilemma, and as such we can learn from the well-developed thought that surrounds that problem.
+
+The Prisoner's Dilemma is usually explained thusly: two people suspected of committing some crime have been arrested and are being interrogated by the police. The police officer in question doesn't have sufficient evidence to arrest them on the crime they have committed, but can arrest them on a lesser charge. The officer places them in seperate rooms and offers them a deal - they can either stay quiet (cooperate), or confess and incriminate their partner (defect).
+\begin{itemize}
+	\item If both of the suspects stay quiet, they will both be charged with the lesser offense and given a short prison sentence.
+	\item If one of the suspects talks, that suspect walks free while the other suffers a long prison sentence.
+	\item However, if both of them talk, neither can reap the benefits from being a witness and both will suffer a long sentence.
+\end{itemize}
+	\begin{figure}
+		\label{fig:generic-prisoners-dilemma}
+		\caption{The payoff matrix for a genetic prisoner's dilemma}
+		\begin{tabular}{| l || c | c | c |}
+			\hline
+			A1,A2 & A2 Coop & A2 Defe \\ \hline
+			A1 Coop & -1,-1 & -7,0 \\ \hline  
+			A1 Defe & 0,-7 & -3,-3  \\ \hline
+		\end{tabular}
+	\end{figure}
+
+A single instance of a Prisoner's Dilemma is a solved problem from a Game Theory perspective - it's Nash Equilibrium is for both players to defect, despite the fact that, if both had cooperated, they would have gotten a shorter sentence.
+
+Repeated instances of the Prisoner's Dilemma is a more complicated issue - that is, when the same players undertake $n$ number of games, with full memory of all the previous games. While, for a fixed and known $n$, the game has the same nash equilibrium (that is, to always defect) - the repeated nature of the game gives an opportunity for counterplay and changing decisions.
+
+The most simple strategies are a naive \emph{always cooperate} or \emph{always defect} strategy, but there are other - more complicated - strategies, which may or may not produce better results on average. Some of these include:
+\begin{description}
+	\item[Random] - Chooses an option at random. Sometimes $P(defect) = P(cooperate) = 0.5$, but the probabilites can theoretically be anything.
+	\item[Tit for Tat] - Cooperate in the first round, then repeat the opponent's move every round after that. (I.E. defect against an opponent who defected last round.)
+	\item[Tit for Two Tat] - Cooperate unless the opponent defects twice in a row, then defect
+	\item[Grim Trigger] - Cooperate until opponent defects, then defect forever.
+\end{description}
+
+\subsubsection{Psychology and Sociology of cooperation}
+\label{sec:psychology-sociology-cooperation}
 
 \subsection{Genetic Algorithms}
 \label{sec:genetic-algorithms}

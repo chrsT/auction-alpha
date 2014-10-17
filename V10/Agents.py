@@ -41,6 +41,10 @@ class Agent:
 			raise
 
 		return agent
+
+	@classmethod
+	def CLASS_breed(self,agent1,agent2):
+		return self.CLASS_create_agent(Genetics.Genome.CLASS_breed(agent1.genome,agent2.genome))
 		
 
 	def __init__(self,genome):
@@ -64,6 +68,9 @@ class Agent:
 	def get_feedback(self):
 		""" Returns a tuple: (positive,negative) """
 		return self.feedback_value_pos,self.feedback_value_neg
+
+	def get_gene(self,key):
+		return self.genome.get(key).get_value()
 
 	def new_transaction(self,transaction,feedback_value=0):
 		""" Updates internal state with new transaction """

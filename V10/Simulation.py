@@ -1,4 +1,4 @@
-import Genetics, Agents, Simulation, Transactions, PARAMETERS, ENUMS
+import Genetics, Agents, Simulation, Transactions, PARAMETERS, ENUMS, RANDOMS
 import os, sys, datetime, time
 
 def write_out(line):
@@ -9,11 +9,14 @@ class Simulation:
 	Class Simulation
 	
 	"""
-	def __init__(self):
+	def __init__(self,agents=None):
 		self.transaction_list = Transactions.TransactionList()
 		self.agent_list = Agents.AgentList()
-		for a in self.generate_random_agents(PARAMETERS.N_AGENTS):
-			self.agent_list.append(a)
+		if agents is None:
+			for a in self.generate_random_agents(PARAMETERS.N_AGENTS):
+				self.agent_list.append(a)
+		else:
+			self.agent_list = agents
 
 	def run_simulation(self):
 		write_out("Simulation running")
@@ -21,7 +24,7 @@ class Simulation:
 		for roun in range(0,self.n_transactions):
 			if PARAMETERS.DEBUG and PARAMETERS.VERBOSE_SIMULATION and (roun % PARAMETERS.VERBOSE_SIMULATION_N == 0):
 				write_out("{}/{}".format(roun,self.n_transactions))
-			a1,a2 = self.agent_list.get_two_random()
+			a1,a2 = RANDOMS.two_random_agents(self.agent_list)
 			transaction = Transactions.Transaction(a1,a2)
 			transaction.execute_transaction()
 			self.transaction_list.append(transaction)

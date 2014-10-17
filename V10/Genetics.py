@@ -1,4 +1,4 @@
-import Genetics, Agents, Simulation, Transactions, PARAMETERS, ENUMS
+import Genetics, Agents, Simulation, Transactions, PARAMETERS, ENUMS, RANDOMS
 import os, sys, datetime, time
 
 class Genome:
@@ -26,14 +26,21 @@ class Genome:
 		
 	@classmethod
 	def CLASS_breed(self,Genome1,Genome2):
-		""" Takes Genome1 and Genome2, returns new Genome object """
-		pass
+		""" Takes Genome1 and Genome2, returns new genome string"""
+		new_gen = {}
+		for key in ["strategy","rep-weighting","prob-defect"]:
+			gene1 = Genome1.get(key)
+			gene2 = Genome2.get(key)
+			new_gen[key] = gene1.CLASS_breed(gene1,gene2)
+
+		gen_string = PARAMETERS.GENOME_STRING.format(**new_gen)
+		return gen_string
 
 	def get(self,key):
 		return self.genes.get(key,None)
 
 	def get_value(self,key):
-		return self.genes.get(key,None).value
+		return self.genes.get(key,None).get_value()
 
 	def __str__(self):
 		""" Returns string representation of Genome """
@@ -46,7 +53,7 @@ class Gene:
 	
 	"""
 	@classmethod
-	def CLASS_breed(gene_1,gene_2):
+	def CLASS_breed(self,gene_1,gene_2):
 		raise NotImplementedError
 
 	def __init__(self,value):
@@ -56,6 +63,9 @@ class Gene:
 	def __str__(self):
 		raise NotImplementedError
 
+	def get_value(self):
+		return self.value
+
 class DistinctGene(Gene):
 	"""
 	Class DistinctGene(Gene):
@@ -63,7 +73,7 @@ class DistinctGene(Gene):
 
 	"""
 	@classmethod
-	def CLASS_breed(gene_1,gene_2):
+	def CLASS_breed(self,gene_1,gene_2):
 		raise NotImplementedError
 
 	def __init__(self,value):
@@ -98,9 +108,21 @@ class StrategyGene(DistinctGene):
 	
 	"""
 	@classmethod
-	def CLASS_breed(gene_1,gene_2):
-		pass
+	def CLASS_breed(self,gene_1,gene_2):
+		if gene_1.get_value() == ENUMS.StrategyEnum.hawk and gene_2.get_value() == ENUMS.StrategyEnum.hawk:
+			val =  ENUMS.StrategyEnum.hawk
+		elif gene_1.get_value() == ENUMS.StrategyEnum.dove and gene_2.get_value() == ENUMS.StrategyEnum.dove:
+			val = ENUMS.StrategyEnum.dove
+		else:
+			val = RANDOMS.binary_random_decision(PARAMETERS.GENETICS_STRATEGY_HAWK_DOM,ENUMS.StrategyEnum.hawk,ENUMS.StrategyEnum.dove)
 
+		if RANDOMS.binary_random_decision(PARAMETERS.GENETICS_STRATEGY_MUTATE,True,False):
+			if val == ENUMS.StrategyEnum.hawk:
+				val = ENUMS.StrategyEnum.dove
+			elif val == ENUMS.StrategyEnum.dove:
+				val = ENUMS.StrategyEnum.hawk
+		return StrategyGene(val)
+				
 	@classmethod
 	def str_to_enum(self,value):
 		if value == "H":
@@ -128,8 +150,15 @@ class ProbDefectGene(IntGene):
 	
 	"""
 	@classmethod
-	def CLASS_breed(gene_1,gene_2):
-		pass
+	def CLASS_breed(self,gene_1,gene_2):
+		val = int((gene_1.get_value() + gene_2.get_value())/2)
+		val += RANDOMS.random_int(PARAMETERS.GENETICS_PROB_DEFECT_RAND_MIN,PARAMETERS.GENETICS_PROB_DEFECT_RAND_MAX)
+		if val < 0:
+			val = 0
+		if val > 1023:
+			val = 1023
+
+		return val
 
 	def __init__(self,value):
 		self.range = 0,1023
@@ -146,8 +175,15 @@ class RepWeightingGene(IntGene):
 
 	"""
 	@classmethod
-	def CLASS_breed(gene_1,gene_2):
-		pass
+	def CLASS_breed(self,gene_1,gene_2):
+		val = int((gene_1.get_value() + gene_2.get_value())/2)
+		val += RANDOMS.random_int(PARAMETERS.GENETICS_REP_WEIGHTING_RAND_MIN,PARAMETERS.GENETICS_REP_WEIGHTING_RAND_MAX)
+		if val < 0:
+			val = 0
+		if val > 1023:
+			val = 1023
+
+		return val
 
 	def __init__(self,value):
 		self.range = 0,1023
