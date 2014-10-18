@@ -2,6 +2,11 @@ import Genetics, Agents, Simulation, Transactions, PARAMETERS, ENUMS, RANDOMS
 import os, sys, datetime, time
 
 import statistics
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+
+import threading, multiprocessing
 
 def write_out(line):
 	print("[{}] {}".format(datetime.datetime.now(),line))
@@ -81,23 +86,8 @@ class GenerationStatistics:
 			else:
 				hawks.append(a.score)
 
-		if len(doves) > 0:
-			d["doves"]["mean"] = statistics.mean(doves)
-			d["doves"]["stdev"] = statistics.stdev(doves)
-			d["doves"]["median"] = statistics.median(doves) #Also need first and third quartiles for box plottings.
-		else:
-			d["doves"]["mean"] = 0
-			d["doves"]["stdev"] = 0
-			d["doves"]["median"] = 0			
-
-		if len(hawks) > 0:
-			d["hawks"]["mean"] = statistics.mean(hawks)
-			d["hawks"]["stdev"] = statistics.stdev(hawks)
-			d["hawks"]["median"] = statistics.median(hawks)
-		else:
-			d["hawks"]["mean"] = 0
-			d["hawks"]["stdev"] = 0
-			d["hawks"]["median"] = 0
+		d["doves"] = doves
+		d["hawks"] = hawks
 		
 		return d
 		
@@ -110,13 +100,38 @@ class GenerationStatistics:
 
 	def gene_score_correlation(self,generation):
 		return None
-				
+		
+class ThreadingManager:
+	def __init__(self,n_simulations=PARAMETERS.N_SIMULATIONS,n_cores=multiprocessing.cpu_count()):
+		self.n_simulations = n_simulations
+		self.n_cores = n_cores
+
+	def run(self):
+		pool = multiprocessing.Pool(processes=self.n_cores)
+		self.managers = []
+		for i in range(0,self.n_simulations):
+			self.managers.append(pool.apply_async(individual_thread,(i,)))
+
+
+	
+def individual_thread(thread):
+	write_out("Beginning thread, ID = {}".format(thread))
+	man = Manager(ID=thread)
+	man.run()
+	write_out("Ending thread, ID = {}".format(thread))
+	return [a.stats for a in man.stats]
 	
 class Manager:
-	def __init__(self,n_generations,n_agents):
+	def __init__(self,n_generations=PARAMETERS.GENERATIONS_TO_DO,n_agents=PARAMETERS.N_AGENTS,ID=None):
 		self.n_generations = n_generations
 		self.n_agents = n_agents
 		self.stats = []
+		self.begin_time = datetime.datetime.now()
+		if ID is None:
+			self.ID = datetime.datetime.now()
+		else:
+			self.ID = ID
+		
 
 	def run(self):
 		agents = None
@@ -125,6 +140,34 @@ class Manager:
 			gen.run()
 			self.stats.append(gen.get_stats())
 			agents = gen.next_generation()
+
+	def show_graph(self):
+		doves = []
+		hawks = []
+		for a in self.stats:
+			doves.append(a.stats["score-stats"]["doves"])
+			hawks.append(a.stats["score-stats"]["hawks"])
+
+		width = 0.5*0.9
+		bar_doves = plt.bar([a-width for a in list(range(1,len(self.stats)+1))],[len(a) for a in doves],width,color="blue")
+		bar_hawks = plt.bar([a for a in list(range(1,len(self.stats)+1))],[len(a) for a in hawks],width,color="red")
+		bxp_doves = plt.boxplot(doves,widths=width,positions=[a-((51/100)*width) for a in list(range(1,len(self.stats)+1))])
+		bxp_hawks = plt.boxplot(hawks,widths=width,positions=[a+((51/100)*width) for a in list(range(1,len(self.stats)+1))])
+
+		plt.setp(bxp_doves["boxes"],color="#191970")
+		plt.setp(bxp_doves["whiskers"],color="#191970")
+		plt.setp(bxp_doves["fliers"],marker="None")
+		plt.setp(bxp_doves["medians"],color="#191970")
+
+		plt.setp(bxp_hawks["boxes"],color="#960018")
+		plt.setp(bxp_hawks["whiskers"],color="#960018")
+		plt.setp(bxp_hawks["fliers"],marker="None")
+		plt.setp(bxp_hawks["medians"],color="#960018")
+
+		plt.xticks(list(range(1,len(self.stats)+1)))
+
+		plt.show()
+		
 			
 if __name__ == "__main__":
 	man = Manager(PARAMETERS.GENERATIONS_TO_DO,PARAMETERS.N_AGENTS)
