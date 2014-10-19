@@ -3,7 +3,7 @@
 \usepackage{todonotes}
 
 \title{Project Proposal \\ Using Agents and Genetic Algorithms to model, analyse and improve strategies for trading on an online auction site with feedback and reputation systems}
-\author{Christopher Taylor \\ Department of Computer Science \\ University of Bath \\ ct345@bath.ac.uk}
+\author{Christopher Taylor \\ Department of Computer Science \\ University of Bath \\ me@christophertaylor.net}
 
 \begin{document}
 \maketitle
@@ -11,9 +11,12 @@
 \listoftodos
 \section{Problem Description}
 \label{sec:problem-description}
-Online auction websites - such as eBay - give users the opportunity to trade with eachother. Whilst this functionality is wonderful in terms of blah blah blah \todo{Talk about fraud on online marketplaces}
+There are many websites and services that facilitate trade between users, perhaps one of the most well known is eBay. These services can be of great value to users for a wide variety of different purposes, but it can come at a cost - there are malicious users who attempt to defraud and scam users.
 
-This project will create an abstract model of an online auction environment and use this to explore different strategies for both genuine and malicious users. This project spans mutliple Computer Science and Mathematical topics, including: Game Theory, Intelligent Agents and Genetic Algortihms.
+The platform has several institutional methods of preventing fraud and reimbursing victims, but the system that most factors into user's decision making is the feedback system. The feedback system gives buyers an opportunity to leave a comment and positive, negative or neutral feedback on a transaction. All of this information is made available to users when they are deciding to carry out a transaction - including a feedback score and the seller's percentage of positive feedback. From this, the potential buyer can decide whether or not they trust the user to not defraud them, and to deliver the goods in a good state, and in good time.
+
+I am planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, I will then introduce more factors (\fref{sec:factors-experiment}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, I will be employing a genetic algorithm (\fref{sec:genetic-algorithms}) in order to refine the strategies and parameters over many generations.
+
 \subsection{The Auction Model}
 	\begin{figure}
 		\label{fig:model-payoff}
@@ -36,7 +39,6 @@ This project will create an abstract model of an online auction environment and 
 		\item Each user then has the opportunity to leave feedback about the user they traded with (if the transaction actually went ahead - that is, if neither declined it.)
 	\end{itemize}
 	\item After all the transactions, each agent's score is computed.
-	\item Then, a new generation of agents can be bred from the results (see \fref{sec:genetic-algorithms}) and analysis of the results can be performed.
 \end{itemize}
 
 \subsubsection{Justification for model}
@@ -47,6 +49,7 @@ As previously discussed, this model is very much an abstraction rather than a fa
 	\item Relatedly, this includes different methods of defection - sending wrong/broken goods or not sending anything. Additionally, things such as a transaction falling through without malicious intent are not modelled.
 	\item The payoffs for each person are simplified and uniform.
 	\item Real users do not choose who to trade with at random.
+	\item In the actual eBay system, sellers post an item for sale and buyers choose whether or not to purchase them (taking into account things such as desire for the item and the reputation of the user.) In addition, only buyers are allows to post feedback on sellers. In this model, there is no role for "buyer" or "seller" - just two agents participating in a transaction.
 \end{itemize}
 
 Despite these limitations, I believe the model still has value as an analytical tool.
@@ -55,7 +58,7 @@ Despite these limitations, I believe the model still has value as an analytical 
 
 \subsubsection{Game Theory Analysis}
 \label{sec:game-theory}
-Each individual transaction decision is typical of a Prisoner's Dilemma, and as such we can learn from the well-developed thought that surrounds that problem.
+Each individual transaction decision is similar to a Prisoner's Dilemma, and as such we can learn from the well-developed thought that surrounds that problem.
 
 The Prisoner's Dilemma is usually explained thusly: two people suspected of committing some crime have been arrested and are being interrogated by the police. The police officer in question doesn't have sufficient evidence to arrest them on the crime they have committed, but can arrest them on a lesser charge. The officer places them in seperate rooms and offers them a deal - they can either stay quiet (cooperate), or confess and incriminate their partner (defect).
 \begin{itemize}
@@ -76,7 +79,7 @@ The Prisoner's Dilemma is usually explained thusly: two people suspected of comm
 
 A single instance of a Prisoner's Dilemma is a solved problem from a Game Theory perspective - it's Nash Equilibrium is for both players to defect, despite the fact that, if both had cooperated, they would have gotten a shorter sentence.
 
-Repeated instances of the Prisoner's Dilemma is a more complicated issue - that is, when the same players undertake $n$ number of games, with full memory of all the previous games. While, for a fixed and known $n$, the game has the same nash equilibrium (that is, to always defect) - the repeated nature of the game gives an opportunity for counterplay and changing decisions.
+Repeated games of the Prisoner's Dilemma (known as the \emph{Iterated Prisoner's Dilemma} or IPD) is a more complicated issue - defined as when the same players undertake $n$ number of games, with full memory of all the previous games. While, for a fixed and known $n$, the game has the same nash equilibrium (to always defect) - the repeated nature of the game gives an opportunity for counterplay and changing decisions.
 
 The most simple strategies are a naive \emph{always cooperate} or \emph{always defect} strategy, but there are other - more complicated - strategies, which may or may not produce better results on average. Some of these include:
 \begin{description}
@@ -84,17 +87,32 @@ The most simple strategies are a naive \emph{always cooperate} or \emph{always d
 	\item[Tit for Tat] - Cooperate in the first round, then repeat the opponent's move every round after that. (I.E. defect against an opponent who defected last round.)
 	\item[Tit for Two Tat] - Cooperate unless the opponent defects twice in a row, then defect
 	\item[Grim Trigger] - Cooperate until opponent defects, then defect forever.
+	\item[Probing] - A cooperative strategy (such as Tit for Tat), except it occasionally randomly defects, to see what the opponent does.
 \end{description}
 
-\todo{How this problem is similar/different from this standard prisoner's dilemma}
+Strategies can also take elements and pieces from other strategies, to create even more complicated strategies. The strategies that will be used in the main problem will draw elements from the deep analysis of the IPD, but will have to take into account the number of ways that the problem differs from the IPD.
+
+\begin{description}
+	\item[Decline] - Unlike in the standard IPD, agents can choose to decline a transaction with an agent for no cost/payoff if they believe it is in their best interest.
+	\item[Lots of agents] - The standard IPD is played with two agents over a large number of games. In this problem, a large number of agents are playing, and agents will trade with a large number of other agents.
+	\item[Unreliable history] - Instead of having an accurate history of your transaction history with an agent, an agent has to rely on the (possibly unreliable) feedback and reputation history left by other agents that agent has transacted with.
+\end{description}
 
 \subsubsection{Psychology and Sociology of cooperation}
 \label{sec:psychology-sociology-cooperation}
-\todo{Psychology and Sociology of cooperation, including lots of references to Liars and Outliers. \\ Read this as "why all the game theory is wrong when applied to humans."}
+\todo{Psychology and Sociology of cooperation}
 
 \subsection{Genetic Algorithms}
 \label{sec:genetic-algorithms}
 \todo{Genetic Algorithms: what they are, why I'm using them.}
+
+\subsection{Feedback and Reputation systems}
+\label{sec:reputation-systems}
+\todo{Reputation Systems}
+
+\subsection{Factors to experiment with}
+\label{sec:factors-experiment}
+\todo{Factors for Experiment}
 
 \section{Requirements}
 \label{sec:requirements}
