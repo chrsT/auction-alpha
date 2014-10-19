@@ -1,6 +1,10 @@
 \documentclass{article}
 \usepackage{fancyref}
 \usepackage{todonotes}
+\usepackage[utf8]{inputenc}
+
+\usepackage[style=ieee,backend=biber]{biblatex}
+\addbibresource{proposal-cites.bib}
 
 \title{Project Proposal \\ Using Agents and Genetic Algorithms to model, analyse and improve strategies for trading on an online auction site with feedback and reputation systems}
 \author{Christopher Taylor \\ Department of Computer Science \\ University of Bath \\ me@christophertaylor.net}
@@ -13,7 +17,7 @@
 \label{sec:problem-description}
 There are many websites and services that facilitate trade between users, perhaps one of the most well known is eBay. These services can be of great value to users for a wide variety of different purposes, but it can come at a cost - there are malicious users who attempt to defraud and scam users.
 
-The platform has several institutional methods of preventing fraud and reimbursing victims, but the system that most factors into user's decision making is the feedback system. The feedback system gives buyers an opportunity to leave a comment and positive, negative or neutral feedback on a transaction. All of this information is made available to users when they are deciding to carry out a transaction - including a feedback score and the seller's percentage of positive feedback. From this, the potential buyer can decide whether or not they trust the user to not defraud them, and to deliver the goods in a good state, and in good time.
+The platform has several institutional methods of preventing fraud and reimbursing victims, but the system that most factors into user's decision making is the feedback system. The feedback system gives buyers an opportunity to leave a comment and positive, negative or neutral feedback on a transaction. All of this information is made available to users when they are deciding to carry out a transaction - including a feedback score and the seller's percentage of positive feedback. From this, the potential buyer can decide whether or not they trust the user to not defraud them, and to deliver the goods in a good state, and in good time.\cite{gregg2006role}
 
 I am planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, I will then introduce more factors (\fref{sec:factors-experiment}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, I will be employing a genetic algorithm (\fref{sec:genetic-algorithms}) in order to refine the strategies and parameters over many generations.
 
@@ -51,7 +55,7 @@ After this, the results can be analysed and/or a new generation (see \fref{sec:g
 As previously discussed, this model is very much an abstraction rather than a faithful representation of how a site may work. Things not factored in include:
 \begin{itemize}
 	\item Modelling of the actual content of transactions: the physical packaging and sending of goods, what the goods actually are, methods of payment and so on.s
-	\item Relatedly, this includes different methods of defection - sending wrong/broken goods or not sending anything. Additionally, things such as a transaction falling through without malicious intent are not modelled.
+	\item Relatedly, this includes different methods of defection - sending wrong/broken goods or not sending anything. Additionally, things such as a transaction falling through without malicious intent are not modelled.\cite{gregg2008typology}
 	\item The payoffs for each person are simplified and uniform.
 	\item Real users do not choose who to trade with at random.
 	\item In the actual eBay system, sellers post an item for sale and buyers choose whether or not to purchase them (taking into account things such as desire for the item and the reputation of the user.) In addition, only buyers are allows to post feedback on sellers. In this model, there is no role for "buyer" or "seller" - just two agents participating in a transaction.
@@ -99,7 +103,7 @@ Strategies can also take elements and pieces from other strategies, to create ev
 
 \begin{description}
 	\item[Decline] - Unlike in the standard IPD, agents can choose to decline a transaction with an agent for no cost/payoff if they believe it is in their best interest.
-	\item[Lots of agents] - The standard IPD is played with two agents over a large number of games. In this problem, a large number of agents are playing, and agents will trade with a large number of other agents.
+	\item[Lots of agents] - The standard IPD is played with two agents over a large number of games. In this problem, a large number of agents are playing, and agents will trade with a large number of other agents. Strategies differ in large, evolving populations than from two-player games.\cite{stewart2013extortion} \footnote{The archetypal prisoner's dilemma-esque problem in a large population is the Hawk-Dove game, which will be covered and discussed in the dissertation itself.}
 	\item[Unreliable history] - Instead of having an accurate history of your transaction history with an agent, an agent has to rely on the (possibly unreliable) feedback and reputation history left by other agents that agent has transacted with.
 \end{description}
 
@@ -126,5 +130,7 @@ Strategies can also take elements and pieces from other strategies, to create ev
 \section{Project Plan}
 \label{sec:project-plan}
 \todo{Project Plan}
+
+\printbibliography
 
 \end{document}
