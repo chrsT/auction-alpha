@@ -18,17 +18,7 @@ The platform has several institutional methods of preventing fraud and reimbursi
 I am planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, I will then introduce more factors (\fref{sec:factors-experiment}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, I will be employing a genetic algorithm (\fref{sec:genetic-algorithms}) in order to refine the strategies and parameters over many generations.
 
 \subsection{The Auction Model}
-	\begin{figure}
-		\label{fig:model-payoff}
-		\caption{The Payoff Matrix for a transaction}
-		\begin{tabular}{| l || c | c | c |}
-			\hline
-			A1,A2 & A2 Coop & A2 Defe & A2 Decl \\ \hline
-			A1 Coop & 2,2 & -2,4 & 0,0 \\ \hline  
-			A1 Defe & 4,-2 & -1, -1 & 0,0 \\ \hline
-			A1 Decl & 0,0 & 0,0 & 0,0 \\ \hline
-		\end{tabular}
-	\end{figure}
+Each simulation will run as follows:
 \begin{itemize}
 	\item N agents (representing users) are somehow selected or generated.
 	\item The number of transactions for the entire simulation is randomly determined, and hidden from the agents.
@@ -40,6 +30,21 @@ I am planning on creating an abstract model of the eBay systems in order to expl
 	\end{itemize}
 	\item After all the transactions, each agent's score is computed.
 \end{itemize}
+
+After this, the results can be analysed and/or a new generation (see \fref{sec:genetic-algorithms}) can be bred for the next round of simulations.
+	\begin{figure}[h]
+		\begin{center}
+			\label{fig:model-payoff}
+			\caption{The Payoff Matrix for a transaction}
+			\begin{tabular}{| l || c | c | c |}
+				\hline
+				A1,A2 & A2 Coop & A2 Defe & A2 Decl \\ \hline
+				A1 Coop & 2,2 & -2,4 & 0,0 \\ \hline  
+				A1 Defe & 4,-2 & -1, -1 & 0,0 \\ \hline
+				A1 Decl & 0,0 & 0,0 & 0,0 \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{figure}
 
 \subsubsection{Justification for model}
 \label{sec:justification-model}
@@ -68,7 +73,7 @@ The Prisoner's Dilemma is usually explained thusly: two people suspected of comm
 \end{itemize}
 	\begin{figure}
 		\label{fig:generic-prisoners-dilemma}
-		\caption{The payoff matrix for a genetic prisoner's dilemma}
+		\caption{The payoff matrix for a generic prisoner's dilemma}
 		\begin{tabular}{| l || c | c | c |}
 			\hline
 			A1,A2 & A2 Coop & A2 Defe \\ \hline
