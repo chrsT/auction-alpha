@@ -109,7 +109,26 @@ Strategies can also take elements and pieces from other strategies, to create ev
 
 \subsubsection{Psychology and Sociology of cooperation}
 \label{sec:psychology-sociology-cooperation}
-\todo{Psychology and Sociology of cooperation}
+While game theory is a field with great explanatory power, human behaviour alone can not be explained by mathematical calculation - humans often exhibit behaviour that is often contradicts a purely calculating model. Humans cooperate, they trust one another, they exhibit alturism\cite{fehr2003nature}, they act with a sense of fairness\cite{forsythe1994fairness}, and so on.
+
+In \cite{Schneier2012}, Schneier suggests a taxonomy of external pressures that influence people's decision making: moral pressures, reputational pressures, institutional pressures and security systems. Each of these influence people's decisions in a complicated and occasionally opposing manner. He writes\cite[p63]{Schneier2012}:
+
+\begin{quotation}
+Prisoner's Dilemmas involve a risk trade-off between group interest and self-interest, but it's generally only a dilemma if you look at it very narrowly. For most people, most of the time, there's no actual dilemma. We don't stand at the checkout line at a store thinking: "Either the merchant is selling me a big screen TV, or this box is secretly filled with rocks. If it's rocks, I'm better off giving him counterfeit money. And if it has a TV, I'm still better off giving him counterfeit money." Generally, we just pay for the TV, put it in our car, and drive home.
+\end{quotation}
+
+With a purely rational, purely calculative, maximising of self-interest approach - the trust required for the everyday tasks of civilisation (such as buying something in a shop), and civilisation itself, breaks down. It is lucky, then, that most people do not take this approach - we, as humans, have a wide range of conflicting motivations and pressures that influence our decisions.
+
+Relating this back to the auction service problem: this means that the majority of users won't be out to scam others. In \cite{gregg2008typology}, the ra
+te of accusations of fraud is $0.2%$, with official eBay estimates at $0.01%$ - the true value being difficult to ascertain due to the difficulty in establishing the validity of a large number of claims, but it is obvious that the vast majority of transactions are \emph{not} fraudulent. This is obviously a positive thing for the platform, as too high a chance of being defrauded is likely to drive people away.
+
+In terms of our agents, it means that the majority of the agents at the start of the scenarios will be genuine users with only a few malicious agents. They will be described using terms of the "Hawk-Dove game" \cite{smith1973lhe}, a prisoner's dilemma-like game on a population level. The agent types are:
+\begin{description}
+	\item[Dove] - Genuine user, wishes to cooperate and engage in mutually beneficial transactions - maximising its utility while still remaining honest. The dove will not defect, but will decline transactions if it sees fit.
+	\item[Hawk] - Malicious user, wishes to maximise their own utility at the expense of others. The hawk can defect, cooperate or decline as it believes is best.
+\end{description}
+
+Within the dove and hawk categories, there will be differences in the strategies employed by each individual agent - but the spirit of the agent's goal will stay the same.
 
 \subsection{Genetic Algorithms}
 \label{sec:genetic-algorithms}
