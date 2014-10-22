@@ -1,0 +1,133 @@
+\documentclass{article}
+\usepackage{fancyref}
+\usepackage{todonotes}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+
+\usepackage[style=ieee,backend=biber]{biblatex}
+\addbibresource{proposal-cites.bib}
+
+\title{Project Proposal \\ Investigating strategies for agents to scam and to not get scammed on an abstract eBay}
+\author{Christopher Taylor \\ Department of Computer Science \\ University of Bath \\ me@christophertaylor.net}
+
+\begin{document}
+\maketitle
+
+\section{Problem Description}
+\label{sec:problem-description}
+There are many websites and services that facilitate trade between users, perhaps one of the most well known is eBay. These services can be of great value to users for a wide variety of different purposes, but it can come at a cost - there are malicious users who attempt to defraud and scam users.
+
+The platform has several institutional methods of preventing fraud and reimbursing victims, but the system that most factors into user's decision making is the feedback system. The feedback system gives buyers an opportunity to leave a comment and positive, negative or neutral feedback on a transaction. All of this information is made available to users when they are deciding to carry out a transaction - including a feedback score and the seller's percentage of positive feedback. From this, the potential buyer can decide whether or not they trust the user to not defraud them, and to deliver the goods in a good state, and in good time.\cite{gregg2006role}
+
+I am planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, I will then introduce more factors (\fref{sec:factors-experiment}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, I will be employing a genetic algorithm in order to refine the strategies and parameters over many generations.
+
+\subsection{The Model: Peer-to-Peer Trading Game}
+\label{sec:P2PTG}
+Each round of the \emph{Peer-to-Peer Trading Game} (henceforth referred to as \emph{P2PT Game or P2PTG}) will happen as follows:
+\begin{itemize}
+	\item N agents (representing users) are somehow selected or generated.
+	\item The number of transactions for the entire simulation is randomly determined, and hidden from the agents.
+	\item That many transactions runs, each one going as follows:
+	\begin{itemize}
+		\item Two random agents from the list are selected
+		\item Each choose whether to Cooperate, Defect or Decline. An agent that chooses to cooperate goes into the transaction with good faith, while an agent that chooses to defect attempts to scam or cheat the other. Each agent also has the choice to decline a transaction. The payoff for these actions is defined in \fref{fig:model-payoff}.
+		\item Each user then has the opportunity to leave feedback about the user they traded with (if the transaction actually went ahead - that is, if neither declined it.)
+	\end{itemize}
+	\item After all the transactions, each agent's score is computed.
+\end{itemize}
+
+After each round of the game is complete, the results can be analysed and/or a new generation can be bred for the next round.
+\begin{figure}[h]
+	\begin{center}
+		\label{fig:model-payoff}
+		\caption{The Payoff Matrix for a transaction}
+		\begin{tabular}{| l || c | c | c |}
+			\hline
+			A1,A2 & A2 Coop & A2 Defe & A2 Decl \\ \hline
+			A1 Coop & 2,2 & -2,4 & 0,0 \\ \hline  
+			A1 Defe & 4,-2 & -1, -1 & 0,0 \\ \hline
+			A1 Decl & 0,0 & 0,0 & 0,0 \\ \hline
+		\end{tabular}
+	\end{center}
+\end{figure}
+
+\subsection{Factors \& Strategies}
+\label{sec:factors-strategies}
+Throughout the dissertation, I will start with a simple set of strategies and build increasingly complicated ones, drawing from research in a number of fields related to decision making.
+
+The first iteration of the system will be very similar to the Hawk-Dove game\cite{smith1973lhe}. The hawk-dove game is as follows: two random birds from a population find a food resource at the same time. If both of the birds are doves, they share the food between them; if one is a hawk and the other is a dove, the dove retreats - leaving all the food to the hawk; if both are hawks, they fight for the resource (incurring the risk of injury, etc, in the process.)
+
+In terms of the P2PT game, the first version will contain two agents - those who always cooperate (doves) and those who always defect (hawks.) From there, the hawk and dove strategies will be enhanced with a range of possible different considerations:
+\begin{description}
+	\item[Basic Reputation/Feedback] - Doves will be able to see the reputation of the other use before deciding to trade with them or not - doves in this model will use the percentage of positive/negative feedback (weighting it as it wishes). To compensate, hawks will gain the ability to only defect a certain percentage of the time.
+	\item[Direct experience] - Humans act differently depending on \emph{who} the person is\cite{fehr2003nature}, rather than just their mathematical feedback. In this stage, agents will be able to take into account their direct experience with an agent. Each agent may weight it more or less than the other factors.
+	\item[Whitewashing and number of transactions] - Whitewashing\cite{hoffman2009survey} is one of the types of attacks on reputation systems, by which a malicious user uses some method of clearing or altering their reputation. In terms of online auction sites, one way of doing this would be to start a new account (thus wiping the slate clean.) For some utility cost, hawks will be able to reset their reputation values to 0. As a countermeasure, doves will be able to take into account the length of their opponent's reputation, not just the percent positive - weighting more consistent, lengthier records over shorter ones.
+	\item[Lies and Slander] - Agents are no longer obligated to leave true feedback. Hawks will be able to slander\cite{hoffman2009survey} the doves they exploit (by leaving negative feedback when they chose cooperate) and/or leave positive feedback for other hawks.
+\end{description}
+
+Each stage will contain a detailed discussion of the issues to be considered, drawing from experimental results from the system and appropriate literature.
+
+\section{Requirements Specification}
+\label{sec:requirements-spec}
+\subsection{Requirements for report + Platform}
+\begin{enumerate}
+	\item Develop a simulation platform for the Peer-to-Peer Trading game.
+	\begin{enumerate}
+		\item The platform should provide the framework for the implementation of a wide variety of agent strategies.
+		\item The platform should provide some method of extracting useful data from the simulations for analysis.
+	\end{enumerate}
+	\item Use the platform to experiment with a number of different strategies and factors (as discussed in \fref{sec:factors-strategies}.)
+	\begin{enumerate}
+		\item Bring together research and analysis of results from the P2PT game in order to comment on strategies in the initial scenario.
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Non-functional Requirements}
+\label{sec:non-functional}
+\begin{enumerate}
+	\item The platform and analysis tools to be written should be implemented using Python, version 3.4.
+	\item The platform and analysis tools should be capable of running on a medium-range laptop (6GB RAM, 2.0GHz Quad Core) in under 12 hours per simulation.
+	\item A limited number of larger, more intensive, experiments can be run on a higher-end desktop (20GB RAM, 2.8GHz Quad Core) in under 12 hours per simulation.
+\end{enumerate}
+
+\section{Project Plan}
+\label{sec:project-plan}
+The deliverables for the project are:
+\begin{description}
+	\item[Project Proposal] - 27th October 2014
+	\item[Literature and Technology Survey] - 21st November 2014
+	\item[Demonstration of Progress] - 16th February 2015
+	\item[Dissertation] - 1st May 2015
+\end{description}
+
+The timescale and composition of these tasks is as is shown on the next page:
+
+\includepdf[pages=2]{proposal-gantt.pdf}
+
+\section{Resources}
+\label{sec:resources}
+\begin{itemize}
+	\item Software Resources
+	\begin{itemize}
+		\item Python 3.4 and associated packages, including, but not limited to: iPython, SciPy/NumPy/Matplotlib, PIP (for requirements management.)
+		\item LaTeX and assorted packages (TeXLive)
+	\end{itemize}
+	\item Hardware Resources
+	\begin{itemize}
+		\item One medium-range laptop computer (6GB RAM, 2.0GHz Quad Core) running Linux Mint Debian 17.
+		\item One higher-end desktop computer (20GB RAM, 2.8GHz Quad Core) running Windows 7 and Debian Wheezy (7.7)
+		\item If absolutely required, access to creation of Virtual Private Servers from DigitalOcean - for some cost.
+	\end{itemize}
+	\item Literature Resources
+	\begin{itemize}
+		\item Access to the University of Bath library, physical hardcopies of books and papers.
+		\item Possible access to the resources of other University libraries via the Inter Library Loan system.
+		\item Access to journal articles, ebooks, etc. online via the University of Bath library.
+	\end{itemize}
+\end{itemize}
+
+\printbibliography
+
+
+
+\end{document}
