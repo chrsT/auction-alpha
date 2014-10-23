@@ -19,7 +19,7 @@ There are many websites and services that facilitate trade between users, perhap
 
 The platform has several institutional methods of preventing fraud and reimbursing victims, but the system that most factors into user's decision making is the feedback system. The feedback system gives buyers an opportunity to leave a comment and positive, negative or neutral feedback on a transaction. All of this information is made available to users when they are deciding to carry out a transaction - including a feedback score and the seller's percentage of positive feedback. From this, the potential buyer can decide whether or not they trust the user to not defraud them, and to deliver the goods in a good state, and in good time.\cite{gregg2006role}
 
-I am planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, I will then introduce more factors (\fref{sec:factors-experiment}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, I will be employing a genetic algorithm in order to refine the strategies and parameters over many generations.
+We are planning on creating an abstract model of the eBay systems in order to explore some of the strategies users could employ on a service such as eBay. Starting off simply, we will then introduce more factors (\fref{sec:factors-strategies}) into agents' decision making processes - exploring factors in the model and in their wider academic context. Rather than just running each simulation once with a randomly generated set of agents, we will be employing a genetic algorithm in order to refine the strategies and parameters over many generations.
 
 \subsection{The Model: Peer-to-Peer Trading Game}
 \label{sec:P2PTG}
@@ -53,9 +53,9 @@ After each round of the game is complete, the results can be analysed and/or a n
 
 \subsection{Factors \& Strategies}
 \label{sec:factors-strategies}
-Throughout the dissertation, I will start with a simple set of strategies and build increasingly complicated ones, drawing from research in a number of fields related to decision making.
+Throughout the dissertation, we will start with a simple set of strategies and build increasingly complicated ones, drawing from research in a number of fields related to decision making.
 
-The first iteration of the system will be very similar to the Hawk-Dove game\cite{smith1973lhe}. The hawk-dove game is as follows: two random birds from a population find a food resource at the same time. If both of the birds are doves, they share the food between them; if one is a hawk and the other is a dove, the dove retreats - leaving all the food to the hawk; if both are hawks, they fight for the resource (incurring the risk of injury, etc, in the process.)
+The first iteration of the system will be very similar to the Hawk-Dove game\cite{smith1973lhe}. The most common formulation of the hawk-dove game is: two random birds from a population find a food resource at the same time. If both of the birds are doves, they share the food between them; if one is a hawk and the other is a dove, the dove retreats - leaving all the food to the hawk; if both are hawks, they fight for the resource (incurring the risk of injury, etc, in the process.)
 
 In terms of the P2PT game, the first version will contain two agents - those who always cooperate (doves) and those who always defect (hawks.) From there, the hawk and dove strategies will be enhanced with a range of possible different considerations:
 \begin{description}
@@ -69,7 +69,7 @@ Each stage will contain a detailed discussion of the issues to be considered, dr
 
 \section{Requirements Specification}
 \label{sec:requirements-spec}
-\subsection{Requirements for report + Platform}
+\subsection{Requirements for Report \& Platform}
 \begin{enumerate}
 	\item Develop a simulation platform for the Peer-to-Peer Trading game.
 	\begin{enumerate}
@@ -90,6 +90,7 @@ Each stage will contain a detailed discussion of the issues to be considered, dr
 	\item A limited number of larger, more intensive, experiments can be run on a higher-end desktop (20GB RAM, 2.8GHz Quad Core) in under 12 hours per simulation.
 \end{enumerate}
 
+\newpage
 \section{Project Plan}
 \label{sec:project-plan}
 The deliverables for the project are:
@@ -100,7 +101,15 @@ The deliverables for the project are:
 	\item[Dissertation] - 1st May 2015
 \end{description}
 
-The timescale and composition of these tasks is as is shown on the next page:
+The timescale and composition of these tasks is shown on the next page. A number of considerations went into the plan at each deliverable milestone.
+\begin{description}
+	\item[Project Proposal] - The prototyping and writing of the proposal are concurrent activities, both informed by eachother. Drafts of the proposal were written, then adapted with knowledge gained from early prototyping.
+	\item[Literature and Technology Survey] - The time for the Lit. Review is split roughly into two halves: one for taking the information in and making notes, the other for actually producing the literature review. Mostly completing the reading stage before first drafting the review itself should make planning and outlining the review an easier task, without having to allow for much in the way of later editions.
+	\item[Demonstration of Progress] - The demonstration of progress doesn't require much work, in that it's simply a short presentation about what has already been completed. The two weeks assigned to compiling resources and preparing for the demonstration is very much alongside other work, rather than a project in itself.
+	\item[Disseration] - The dissertation has been divided into four sections: further literature compilation, programming/experimentation, compilation and writing, and loose ends. The first two tasks are mostly concurrent, and the programming/experimentation phase overlaps with the compilation and writing phase - this is to give time enough for extra experiments and development, if it is revealed to be necessary early in the writing process. The last two weeks are assigned to loose ends - anything that needs to be done to finish off the dissertation, including printing and binding, in order to make sure it's handed in on time.
+\end{description}
+
+
 
 \includepdf[pages=2]{proposal-gantt.pdf}
 
